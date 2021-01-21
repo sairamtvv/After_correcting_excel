@@ -152,10 +152,13 @@ class different_tabs():
                  
          
        # Button for Analysis
-        self.buttonanalysis = ttk.Button(self.widgetFrame,text='Analyze',width=18, command=lambda:Thread(target=self.window.analysis_obj.analysis_alldays).start())
+        self.buttonanalysis = ttk.Button(self.widgetFrame,text='Analyze thejam1',width=18, command=lambda:Thread(target=self.window.analysis_obj.analysis_alldays).start())
         self.buttonanalysis.grid(row=0, column=7)  
         
-        
+         
+       # Button for Analysis
+        self.buttonanalysis = ttk.Button(self.widgetFrame,text='Analyze thejam2',width=18, command=lambda:Thread(target=self.window.analysis_obj_thej2.analysis_alldays).start())
+        self.buttonanalysis.grid(row=1, column=7)          
         
         
         

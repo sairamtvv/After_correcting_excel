@@ -32,7 +32,7 @@ from position_refact import Aero_Position_Communication
 from acquisition_refact import Acquisition
 from datalogger_refact import Datalogger_Communication
 from analysis_refact import Analysis
-
+from analysis_thejam2 import Analysis_thej2
 
 # Module level GLOBALS
 GLOBAL_CONST = 42
@@ -95,7 +95,7 @@ class Window():
         self.acquisition=Acquisition(self,self.realrun)
         self.analysis_obj=Analysis(self,self.realrun)
         
-        
+        self.analysis_obj_thej2=Analysis_thej2(self,self.realrun)
         # Add a title
         self.master.title("DATA ACQUISITION SYSTEM ARDF")
        
