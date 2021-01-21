@@ -468,9 +468,14 @@ def matlab_conver_func (a,dir_for_analy,sensor_name):
     df.iloc[20,3]=("{0:.2f}".format(M_max))    #MIS  Misalignment 	
     df.iloc[21,3]=("{0:.2f}".format(np.max(md2d)))     #MD2D Axis Misalignment Stability (Day to Day)
     
+    lst_scalefactor=[df.iloc[10,3],df.iloc[11,3],df.iloc[12,3],df.iloc[13,3],df.iloc[14,3]]
+    lst_bias=[df.iloc[15,3],df.iloc[16,3],df.iloc[17,3],df.iloc[18,3],df.iloc[19,3]]
+    lst_misalign=[df.iloc[20,3],df.iloc[21,3]]
     
-    
-    
+    lst_allresults=[]
+    lst_allresults.extend(lst_scalefactor)
+    lst_allresults.extend(lst_bias)
+    lst_allresults.extend(lst_misalign)
     
     # open an existing document
     doc = docx.Document()
@@ -497,7 +502,7 @@ def matlab_conver_func (a,dir_for_analy,sensor_name):
     
     
     
-    date_p= doc.add_paragraph("PROJECT: EQA-3                \t\t\t        Date: ")
+    date_p= doc.add_paragraph("PROJECT: EQA-3 Name:"+str(sensor_name)+"Date: ")
     date_p.alignment = 1 # for left, 1 for right, 2 center, 3 justify ....
     date_p.bold = True
     
@@ -615,6 +620,9 @@ def matlab_conver_func (a,dir_for_analy,sensor_name):
     
     
     
+    lst_parameters.extend(lst_allresults)
+    lst_parameters.append(sensor_name)
+    
     origin_plotting(dir_for_analy,sensor_name,lst_parameters)
 
 
@@ -678,8 +686,20 @@ def origin_plotting(dir_for_analy,sensor_name,lst_parameters):
     #putting those extra parameters into origin file
     origin.PutWorksheet("[RESULT]Sheet1", lst_parameters, 0, 5) # row 0, col 0
     name_to_save=sensor_name+'Origin_After_Stabilization.OPJ'
-    save_project(origin,name_to_save,str(dir_for_analy))
+    graphLayer1 = origin.FindGraphLayer("Graph1")
+    graphLayer1.Execute('Rescale')
     
+    imgPath=str(dir_for_analy)
+    
+    
+#    'D:\\Auto\\Run_1\\complete_dummy\\101'
+    origin.LT_set_str( '%A', imgPath )
+    
+    
+    gp = graphLayer1.Parent
+    
+    gp.LT_execute( 'expGraph type:=pdf filename:=scalefactor path:=%A overwrite:=replace tr1.Unit:=2 tr1.Width:=2000' )
+    save_project(origin,name_to_save,str(dir_for_analy))
     origin.Exit()
     #Removing the file that has been copied from the resources
     file_to_rem = dir_for_analy.joinpath('Origin_After_Stabilization.OPJ')

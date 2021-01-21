@@ -72,7 +72,14 @@ class Window():
         
         
         #(1 #final run),(0 atleastconnect) (-1 very fast checking)
-        self.realrun=-1
+        self.realrun=1
+        try:
+            self.realrun=int(input("Type_of_run:"))
+        except:
+            print("Not a number")
+        
+        
+        #self.realrun=-1
         
         
 
